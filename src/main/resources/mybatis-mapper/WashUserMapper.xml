@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtx.admin.dao.WashUserMapper" >
+  <resultMap id="BaseResultMap" type="com.jtx.admin.pojo.WashUser" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <idArg column="phone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="nick_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_vip" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <resultMap id="VOResultMap" type="com.jtx.admin.vo.UserVO" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <idArg column="phone" jdbcType="BIGINT" javaType="java.lang.String" />
+      <arg column="nick_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="INTEGER" javaType="java.lang.String" />
+      <arg column="is_vip" jdbcType="INTEGER" javaType="java.lang.String" />
+      <arg column="state" jdbcType="INTEGER" javaType="java.lang.String" />
+      <arg column="integral" jdbcType="INTEGER" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, phone, nick_name, gender, is_vip, state, create_time, update_time
+  </sql>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="com.jtx.admin.pojo.WashUserKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from wash_user
+    where id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.jtx.admin.pojo.WashUserKey" >
+    delete from wash_user
+    where id = #{id,jdbcType=VARCHAR}
+      and phone = #{phone,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jtx.admin.pojo.WashUser" >
+    insert into wash_user (id, phone, nick_name, 
+      gender, is_vip, state, 
+      create_time, update_time)
+    values (#{id,jdbcType=VARCHAR}, #{phone,jdbcType=BIGINT}, #{nickName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{isVip,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtx.admin.pojo.WashUser" >
+    insert into wash_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="isVip != null" >
+        is_vip,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=BIGINT},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="isVip != null" >
+        #{isVip,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtx.admin.pojo.WashUser" >
+    update wash_user
+    <set >
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="isVip != null" >
+        is_vip = #{isVip,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+      and phone = #{phone,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtx.admin.pojo.WashUser" >
+    update wash_user
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      is_vip = #{isVip,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+      and phone = #{phone,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAllUsers" resultMap="VOResultMap">
+    select u.id,phone,nick_name,gender,state,is_vip,SUM(if( o.status > 4, o.price, 0)) as integral,u.create_time from wash_user u LEFT JOIN wash_order o on u.id=o.user_id
+    <trim prefix="WHERE" prefixOverrides="and">
+      <if test="isVip != null">
+        is_vip=#{isVip}
+      </if>
+      <if test="gender != null">
+        and gender=#{gender}
+      </if>
+      <if test="state != null">
+        and state=#{state}
+      </if>
+      <if test="cTimeBegin != null">
+        and u.create_time > #{cTimeBegin}
+      </if>
+      <if test="cTimeEnd != null">
+        and u.create_time &lt; #{cTimeEnd}
+      </if>
+
+    </trim>
+      GROUP BY u.id
+      <trim prefix="HAVING" prefixOverrides="and">
+          <if test="integralBegin != null">
+              and integral > #{integralBegin}
+          </if>
+          <if test="integralEnd != null">
+              and integral &lt; #{integralEnd}
+          </if>
+      </trim>
+
+    <if test="orderFiled.size() > 0">
+      <foreach collection="orderFiled" index="index" item="item" open="ORDER BY" separator=",">
+            ${item}
+      </foreach>
+    </if>
+
+  </select>
+
+  <update id="updateStateByUserId" parameterType="map">
+    update wash_user
+    set state=#{state}
+    where id=#{userId}
+  </update>
+</mapper>

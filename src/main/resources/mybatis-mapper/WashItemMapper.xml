@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtx.admin.dao.WashItemMapper" >
+  <resultMap id="BaseResultMap" type="com.jtx.admin.pojo.WashItem" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sub_title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="title_desc" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="image" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="category" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sort_order" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="url" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, sub_title, title_desc, price, image, category, sort_order, status, url, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from wash_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from wash_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jtx.admin.pojo.WashItem" useGeneratedKeys="true" keyProperty="id" >
+    insert into wash_item (title, sub_title,
+      title_desc, price, image, 
+      category, sort_order, status, 
+      url, create_time, update_time
+      )
+    values (#{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR},
+      #{titleDesc,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR}, 
+      #{category,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jtx.admin.pojo.WashItem" >
+    insert into wash_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="subTitle != null" >
+        sub_title,
+      </if>
+      <if test="titleDesc != null" >
+        title_desc,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+        create_time,
+        update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="titleDesc != null" >
+        #{titleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+        now(),
+        now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtx.admin.pojo.WashItem" >
+    update wash_item
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        sub_title = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="titleDesc != null" >
+        title_desc = #{titleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jtx.admin.pojo.WashItem" >
+    update wash_item
+    set title = #{title,jdbcType=VARCHAR},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      title_desc = #{titleDesc,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      image = #{image,jdbcType=VARCHAR},
+      category = #{category,jdbcType=INTEGER},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      create_time = now(),
+      update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectItemList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from wash_item
+  </select>
+  <select id="selectImageByItemId" parameterType="long" resultType="java.lang.String">
+    select image from wash_item where id=#{itemId}
+  </select>
+  <update id="updateImageByItemId" parameterType="map">
+    update wash_item set image=#{iamge} where id=#{itemId}
+  </update>
+</mapper>

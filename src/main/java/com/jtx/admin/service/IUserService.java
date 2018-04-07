@@ -41,4 +41,5 @@ public interface IUserService {
      * @return
      */
     ServerResponse getUserDetails(String userId);
+
 }

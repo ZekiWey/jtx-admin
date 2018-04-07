@@ -38,7 +38,7 @@ public class ItemServiceImpl implements IItemService {
     }
 
     @Override
-    @Transactional(rollbackFor = IOException.class)
+    @Transactional(rollbackFor = RuntimeException.class)
     public ServerResponse itemAdd(String title, String subTitle, String titleDesc, BigDecimal price,
                                   MultipartFile file,Integer category,Integer sortOrder,Integer status,String url){
         if(null == file || null == price || null == category || null == sortOrder || null == status || strsIsBlank(title,subTitle,titleDesc,url)){
@@ -59,14 +59,15 @@ public class ItemServiceImpl implements IItemService {
         if(result < 0){
             return ServerResponse.createByErrorMessage("新增失败");
         }
+
+        ServerResponse serverResponse = fileService.updateItemImage(file,"img",washItem.getId());
+        if(serverResponse.isSuccess()) {
+            return ServerResponse.createBySuccessMessage("新增成功");
+        }
         try {
-            ServerResponse serverResponse = fileService.updateItemImage(file,"img",washItem.getId());
-            if(serverResponse.isSuccess()){
-                return ServerResponse.createBySuccessMessage("新增成功");
-            }
-        } catch (IOException e) {
+            throw new RuntimeException("图片上传失败");
+        }catch (Exception e){
             e.printStackTrace();
-            return ServerResponse.createByErrorMessage("新增失败");
         }
         return ServerResponse.createByErrorMessage("新增失败");
     }
@@ -77,16 +78,18 @@ public class ItemServiceImpl implements IItemService {
         if(null == itemId){
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        if(null != file){
-            try {
-                ServerResponse serverResponse = fileService.updateItemImage(file,"img",itemId);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ServerResponse.createByErrorMessage("修改失败");
+        if(null == price && null == category && null == sortOrder && null == status && null == title && null==subTitle && null == titleDesc && null == url) {
+            if(null == file){
+                return ServerResponse.createByErrorMessage("参数错误");
             }
         }
-        String DefaultImageName = PropertiesUtil.getProperty("ftp.servxer.http.prefi") + "ItemDefaultImage.jpg";
+        ServerResponse serverResponse = fileService.updateItemImage(file,"img",itemId);
+        if(!serverResponse.isSuccess()){
+            return ServerResponse.createByErrorMessage("修改失败");
+        }
+
         WashItem washItem = new WashItem();
+        washItem.setId(itemId);
         washItem.setTitle(title);
         washItem.setSubTitle(subTitle);
         washItem.setTitleDesc(titleDesc);
@@ -94,23 +97,46 @@ public class ItemServiceImpl implements IItemService {
         washItem.setStatus(status);
         washItem.setSortOrder(sortOrder);
         washItem.setPrice(price);
-        washItem.setImage(DefaultImageName);
         washItem.setUrl(url);
-        int result = itemMapper.insert(washItem);
+        int result = itemMapper.updateByPrimaryKeySelective(washItem);
         if(result < 0){
-            return ServerResponse.createByErrorMessage("新增失败");
+            return ServerResponse.createByErrorMessage("更新失败");
         }
-        try {
-            ServerResponse serverResponse = fileService.updateItemImage(file,"img",washItem.getId());
-            if(serverResponse.isSuccess()){
-                return ServerResponse.createBySuccessMessage("新增成功");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ServerResponse.createByErrorMessage("新增失败");
-        }
-        return ServerResponse.createByErrorMessage("新增失败");
+        return ServerResponse.createBySuccessMessage("更新成功");
     }
+
+    @Override
+    public ServerResponse getItem(Long itemId){
+        WashItem washItem = itemMapper.selectByPrimaryKey(itemId);
+        if(null == washItem){
+            return ServerResponse.createBySuccessMessage("未找到套餐信息");
+        }
+        return ServerResponse.createBySuccess("套餐信息如下",washItem);
+    }
+
+    @Override
+    public ServerResponse delItem(Long itemId){
+        String iamgeName = itemMapper.selectImageByItemId(itemId);
+        String DefaultImageName = PropertiesUtil.getProperty("ftp.servxer.http.prefi") + "ItemDefaultImage.jpg";
+
+        if(iamgeName != DefaultImageName){
+            if(!fileService.delImage(iamgeName.substring(20))){
+                return ServerResponse.createBySuccessMessage("删除失败");
+            }
+        }
+        int result = itemMapper.deleteByPrimaryKey(itemId);
+        if(result <= 0){
+            return ServerResponse.createBySuccessMessage("删除失败");
+        }
+        return ServerResponse.createBySuccess("删除成功");
+
+    }
+
+    /*public static void main(String[] args) {
+        String s = "http://172.16.7.157/e77d9791-3a6b-4e00-8dd8-f72d0e9be343.jpg";
+        String name = s.substring(20);
+        System.out.println(name);
+    }*/
 
     /**
      * 判断一个或者多个字符串是否为空

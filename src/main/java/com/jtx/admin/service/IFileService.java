@@ -18,5 +18,17 @@ public interface IFileService {
      * @return
      * @throws IOException
      */
-    ServerResponse updateItemImage(MultipartFile file, String path,Long itemId) throws IOException;
+    ServerResponse updateItemImage(MultipartFile file, String path,Long itemId);
+
+    /**
+     * 上传首页广告和公告的图片
+     * @param file
+     * @param path
+     * @param contentId 公告ID
+     * @return
+     * @throws IOException
+     */
+    ServerResponse updateContentImage(MultipartFile file, String path,Long contentId);
+
+    boolean delImage(String imageName);
 }

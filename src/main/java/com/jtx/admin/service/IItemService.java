@@ -18,4 +18,13 @@ public interface IItemService {
 
     ServerResponse itemUpload(Long itemId,String title, String subTitle, String titleDesc, BigDecimal price,
                               MultipartFile file,Integer category,Integer sortOrder,Integer status,String url);
+
+    /**
+     * 获取单个的套餐信息
+     * @param itemId
+     * @return
+     */
+    ServerResponse getItem(Long itemId);
+
+    ServerResponse delItem(Long itemId);
 }

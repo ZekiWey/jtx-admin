@@ -56,9 +56,18 @@ public class ItemController {
                                   @RequestParam(value = "sortOrder",required = false) Integer sortOrder,
                                   @RequestParam(value = "status",required = false) Integer status,
                                   @RequestParam(value = "url",required = false) String url){
-        return null;
-//        return itemService.itemUpload(itemId,title, subTitle, titleDesc, price,image, category, sortOrder, status, url);
+        return itemService.itemUpload(itemId,title, subTitle, titleDesc, price,image, category, sortOrder, status, url);
     }
 
+    @RequestMapping("/get")
+    @ResponseBody
+    public ServerResponse getItem(Long itemId){
+        return itemService.getItem(itemId);
+    }
+    @RequestMapping("/del")
+    @ResponseBody
+    public ServerResponse delItem(Long itemId){
+        return itemService.delItem(itemId);
+    }
 
 }

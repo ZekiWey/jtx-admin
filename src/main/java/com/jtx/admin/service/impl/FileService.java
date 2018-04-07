@@ -2,6 +2,7 @@ package com.jtx.admin.service.impl;
 
 import com.google.common.collect.Lists;
 import com.jtx.admin.common.ServerResponse;
+import com.jtx.admin.dao.WashContentMapper;
 import com.jtx.admin.dao.WashItemMapper;
 import com.jtx.admin.service.IFileService;
 import com.jtx.admin.utils.FTPUtil;
@@ -23,13 +24,15 @@ public class FileService implements IFileService {
 
     @Autowired
     private WashItemMapper itemMapper;
+    @Autowired
+    private WashContentMapper contentMapper;
 
     @Override
-    public ServerResponse updateItemImage(MultipartFile file, String path,Long itemId) throws IOException{
+    public ServerResponse updateItemImage(MultipartFile file, String path,Long itemId){
         String DefaultImageName = PropertiesUtil.getProperty("ftp.servxer.http.prefi") + "ItemDefaultImage.jpg";
         String fileName = file.getOriginalFilename();
         String fileExtName = fileName.substring(fileName.lastIndexOf(".") + 1);
-        String name = UUID.randomUUID().toString();
+        String name = "item" + UUID.randomUUID().toString();
         String upLoadFileName = name + "." + fileExtName;
         File fileDir = new File(path);
         if (!fileDir.exists()) {
@@ -61,5 +64,53 @@ public class FileService implements IFileService {
             return ServerResponse.createBySuccessMessage("封面上传成功");
         }
         return ServerResponse.createByErrorMessage("封面上传失败，请重试");
+    }
+    @Override
+    public ServerResponse updateContentImage(MultipartFile file, String path,Long contentId){
+        String DefaultImageName = PropertiesUtil.getProperty("ftp.servxer.http.prefi") + "ContentDefaultImage.jpg";
+        String fileName = file.getOriginalFilename();
+        String fileExtName = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String name = "content" +  UUID.randomUUID().toString();
+        String upLoadFileName = name + "." + fileExtName;
+        File fileDir = new File(path);
+        if (!fileDir.exists()) {
+            fileDir.setWritable(true);
+            fileDir.mkdirs();
+        }
+        File targetFile = new File(path, upLoadFileName);
+        try {
+            file.transferTo(targetFile);
+
+            String oldImage = contentMapper.selectContentImageById(contentId);
+            if (null == oldImage) {
+                return ServerResponse.createByErrorMessage("图片上传失败，请重试");
+            }
+            if (!oldImage.equals(DefaultImageName)) {
+                if (!FTPUtil.delefile(oldImage)) {
+                    return ServerResponse.createByErrorMessage("图片上传失败，请重试");
+                }
+            }
+            FTPUtil.upLoadFile(Lists.newArrayList(targetFile));
+            targetFile.delete();
+        } catch (IOException e) {
+            contentMapper.updateImageById(contentId,DefaultImageName);
+            return ServerResponse.createByErrorMessage("图片上传失败，请重试");
+        }
+        int reulst = contentMapper.updateImageById(contentId,PropertiesUtil.getProperty("ftp.servxer.http.prefi") + targetFile.getName());
+
+        if (reulst > 0) {
+            return ServerResponse.createBySuccessMessage("图片上传成功");
+        }
+        return ServerResponse.createByErrorMessage("图片上传失败，请重试");
+    }
+
+    @Override
+    public boolean delImage(String imageName){
+        try {
+            return FTPUtil.delefile(imageName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

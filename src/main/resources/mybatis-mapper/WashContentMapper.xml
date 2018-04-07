@@ -25,13 +25,13 @@
     delete from wash_content
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jtx.admin.pojo.WashContent" >
+  <insert id="insert" parameterType="com.jtx.admin.pojo.WashContent" keyProperty="id" useGeneratedKeys="true">
     insert into wash_content (id, title, category, 
       url, image, create_time, 
       update_time)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, 
-      #{url,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{url,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.jtx.admin.pojo.WashContent" >
     insert into wash_content
@@ -115,5 +115,17 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectContentList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from wash_content
+    <if test="category != null">
+      where category = #{category}
+    </if>
+  </select>
+  <select id="selectContentImageById" resultType="string" parameterType="long">
+    select image from wash_content where id=#{contentId}
+  </select>
+  <update id="updateImageById" parameterType="map">
+    update wash_content set image=#{image} where id=#{contentId}
   </update>
 </mapper>

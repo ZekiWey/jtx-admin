@@ -2,8 +2,8 @@ package com.jtx.admin.service.impl;
 
 import com.google.common.collect.Lists;
 import com.jtx.admin.common.ServerResponse;
-import com.jtx.admin.dao.WashContentMapper;
-import com.jtx.admin.dao.WashItemMapper;
+import com.jtx.admin.dao.ContentMapper;
+import com.jtx.admin.dao.ItemMapper;
 import com.jtx.admin.service.IFileService;
 import com.jtx.admin.utils.FTPUtil;
 import com.jtx.admin.utils.PropertiesUtil;
@@ -23,9 +23,9 @@ import java.util.UUID;
 public class FileService implements IFileService {
 
     @Autowired
-    private WashItemMapper itemMapper;
+    private ItemMapper itemMapper;
     @Autowired
-    private WashContentMapper contentMapper;
+    private ContentMapper contentMapper;
 
     @Override
     public ServerResponse updateItemImage(MultipartFile file, String path,Long itemId){

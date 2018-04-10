@@ -2,7 +2,7 @@ package com.jtx.admin.pojo;
 
 import java.util.Date;
 
-public class WashUserCar {
+public class UserCar {
     private String id;
 
     private String userId;
@@ -17,7 +17,7 @@ public class WashUserCar {
 
     private Date updateTime;
 
-    public WashUserCar(String id, String userId, String model, String color, String number, Date createTime, Date updateTime) {
+    public UserCar(String id, String userId, String model, String color, String number, Date createTime, Date updateTime) {
         this.id = id;
         this.userId = userId;
         this.model = model;
@@ -27,7 +27,7 @@ public class WashUserCar {
         this.updateTime = updateTime;
     }
 
-    public WashUserCar() {
+    public UserCar() {
         super();
     }
 

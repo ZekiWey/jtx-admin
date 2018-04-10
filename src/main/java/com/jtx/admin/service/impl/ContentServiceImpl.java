@@ -3,8 +3,8 @@ package com.jtx.admin.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jtx.admin.common.ServerResponse;
-import com.jtx.admin.dao.WashContentMapper;
-import com.jtx.admin.pojo.WashContent;
+import com.jtx.admin.dao.ContentMapper;
+import com.jtx.admin.pojo.Content;
 import com.jtx.admin.service.IContentService;
 import com.jtx.admin.service.IFileService;
 import com.jtx.admin.utils.PropertiesUtil;
@@ -15,21 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service("iContentService")
 public class ContentServiceImpl implements IContentService {
 
     @Autowired
-    WashContentMapper contentMapper;
+    ContentMapper contentMapper;
     @Autowired
     private IFileService fileService;
 
     @Override
     public ServerResponse contentList(int pageSize,int pageNum,Integer category){
         PageHelper.startPage(pageNum, pageSize);
-        List<WashContent> washContentList = contentMapper.selectContentList(category);
+        List<Content> washContentList = contentMapper.selectContentList(category);
         if(CollectionUtils.isEmpty(washContentList)){
             return ServerResponse.createByErrorMessage("暂无信息");
         }
@@ -45,7 +44,7 @@ public class ContentServiceImpl implements IContentService {
         if(StringUtils.isBlank(title) || null == url || StringUtils.isBlank(url) || null == image){
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        WashContent washContent = new WashContent();
+        Content washContent = new Content();
         washContent.setTitle(title);
         washContent.setCategory(category);
         washContent.setUrl(url);
@@ -84,7 +83,7 @@ public class ContentServiceImpl implements IContentService {
                 return ServerResponse.createByErrorMessage("更新失败");
             }
         }
-        WashContent washContent = new WashContent();
+        Content washContent = new Content();
         washContent.setUrl(title);
         washContent.setUrl(url);
         washContent.setCategory(category);

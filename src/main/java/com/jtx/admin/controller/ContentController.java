@@ -1,9 +1,7 @@
 package com.jtx.admin.controller;
 
 import com.jtx.admin.common.ServerResponse;
-import com.jtx.admin.pojo.WashContent;
 import com.jtx.admin.service.IContentService;
-import net.sf.jsqlparser.schema.Server;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

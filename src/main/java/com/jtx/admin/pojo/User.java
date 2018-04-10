@@ -2,7 +2,7 @@ package com.jtx.admin.pojo;
 
 import java.util.Date;
 
-public class WashUser extends WashUserKey {
+public class User extends UserKey {
     private String nickName;
 
     private Integer gender;
@@ -15,7 +15,7 @@ public class WashUser extends WashUserKey {
 
     private Date updateTime;
 
-    public WashUser(String id, Long phone, String nickName, Integer gender, Integer isVip, Integer state, Date createTime, Date updateTime) {
+    public User(String id, Long phone, String nickName, Integer gender, Integer isVip, Integer state, Date createTime, Date updateTime) {
         super(id, phone);
         this.nickName = nickName;
         this.gender = gender;
@@ -25,7 +25,7 @@ public class WashUser extends WashUserKey {
         this.updateTime = updateTime;
     }
 
-    public WashUser() {
+    public User() {
         super();
     }
 

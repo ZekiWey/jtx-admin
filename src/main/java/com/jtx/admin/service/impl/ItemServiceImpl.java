@@ -1,12 +1,11 @@
 package com.jtx.admin.service.impl;
 
 import com.jtx.admin.common.ServerResponse;
-import com.jtx.admin.dao.WashItemMapper;
-import com.jtx.admin.pojo.WashItem;
+import com.jtx.admin.dao.ItemMapper;
+import com.jtx.admin.pojo.Item;
 import com.jtx.admin.service.IFileService;
 import com.jtx.admin.service.IItemService;
 import com.jtx.admin.utils.PropertiesUtil;
-import net.sf.jsqlparser.schema.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +21,14 @@ import java.util.List;
 public class ItemServiceImpl implements IItemService {
 
     @Autowired
-    private  WashItemMapper itemMapper;
+    private ItemMapper itemMapper;
     @Autowired
     private IFileService fileService;
 
 
     @Override
     public ServerResponse itemList(){
-        List<WashItem> washItemList = itemMapper.selectItemList();
+        List<Item> washItemList = itemMapper.selectItemList();
         if(null == washItemList || CollectionUtils.isEmpty(washItemList)){
             return ServerResponse.createByErrorMessage("暂无套餐信息");
         }
@@ -45,7 +44,7 @@ public class ItemServiceImpl implements IItemService {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         String DefaultImageName = PropertiesUtil.getProperty("ftp.servxer.http.prefi") + "ItemDefaultImage.jpg";
-        WashItem washItem = new WashItem();
+        Item washItem = new Item();
         washItem.setTitle(title);
         washItem.setSubTitle(subTitle);
         washItem.setTitleDesc(titleDesc);
@@ -88,7 +87,7 @@ public class ItemServiceImpl implements IItemService {
             return ServerResponse.createByErrorMessage("修改失败");
         }
 
-        WashItem washItem = new WashItem();
+        Item washItem = new Item();
         washItem.setId(itemId);
         washItem.setTitle(title);
         washItem.setSubTitle(subTitle);
@@ -107,7 +106,7 @@ public class ItemServiceImpl implements IItemService {
 
     @Override
     public ServerResponse getItem(Long itemId){
-        WashItem washItem = itemMapper.selectByPrimaryKey(itemId);
+        Item washItem = itemMapper.selectByPrimaryKey(itemId);
         if(null == washItem){
             return ServerResponse.createBySuccessMessage("未找到套餐信息");
         }

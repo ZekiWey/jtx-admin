@@ -1,10 +1,8 @@
 package com.jtx.admin.service;
 
 import com.jtx.admin.common.ServerResponse;
-import com.jtx.admin.pojo.WashUser;
 
 import java.util.Date;
-import java.util.List;
 
 public interface IUserService {
 

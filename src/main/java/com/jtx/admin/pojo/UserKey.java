@@ -1,16 +1,16 @@
 package com.jtx.admin.pojo;
 
-public class WashUserKey {
+public class UserKey {
     private String id;
 
     private Long phone;
 
-    public WashUserKey(String id, Long phone) {
+    public UserKey(String id, Long phone) {
         this.id = id;
         this.phone = phone;
     }
 
-    public WashUserKey() {
+    public UserKey() {
         super();
     }
 

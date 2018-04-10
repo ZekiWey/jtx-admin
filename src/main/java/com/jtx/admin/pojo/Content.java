@@ -2,7 +2,7 @@ package com.jtx.admin.pojo;
 
 import java.util.Date;
 
-public class WashContent {
+public class Content {
     private Long id;
 
     private String title;
@@ -17,7 +17,7 @@ public class WashContent {
 
     private Date updateTime;
 
-    public WashContent(Long id, String title, Integer category, String url, String image, Date createTime, Date updateTime) {
+    public Content(Long id, String title, Integer category, String url, String image, Date createTime, Date updateTime) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -27,7 +27,7 @@ public class WashContent {
         this.updateTime = updateTime;
     }
 
-    public WashContent() {
+    public Content() {
         super();
     }
 

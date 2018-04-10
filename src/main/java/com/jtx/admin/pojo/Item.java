@@ -3,7 +3,7 @@ package com.jtx.admin.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class WashItem {
+public class Item {
     private Long id;
 
     private String title;
@@ -28,7 +28,7 @@ public class WashItem {
 
     private Date updateTime;
 
-    public WashItem(Long id, String title, String subTitle, String titleDesc, BigDecimal price, String image, Integer category, Integer sortOrder, Integer status, String url, Date createTime, Date updateTime) {
+    public Item(Long id, String title, String subTitle, String titleDesc, BigDecimal price, String image, Integer category, Integer sortOrder, Integer status, String url, Date createTime, Date updateTime) {
         this.id = id;
         this.title = title;
         this.subTitle = subTitle;
@@ -43,7 +43,7 @@ public class WashItem {
         this.updateTime = updateTime;
     }
 
-    public WashItem() {
+    public Item() {
         super();
     }
 

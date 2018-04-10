@@ -1,7 +1,7 @@
 package com.jtx.admin.vo;
 
-import com.jtx.admin.pojo.WashUserAddress;
-import com.jtx.admin.pojo.WashUserCar;
+import com.jtx.admin.pojo.UserAddress;
+import com.jtx.admin.pojo.UserCar;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class UserDetails {
     private String state;
     private String createTime;
     private String updateTime;
-    private List<WashUserCar> carList;
-    private List<WashUserAddress> userAddresses;
+    private List<UserCar> carList;
+    private List<UserAddress> userAddresses;
 
     public String getId() {
         return id;
@@ -81,19 +81,19 @@ public class UserDetails {
         this.updateTime = updateTime;
     }
 
-    public List<WashUserCar> getCarList() {
+    public List<UserCar> getCarList() {
         return carList;
     }
 
-    public void setCarList(List<WashUserCar> carList) {
+    public void setCarList(List<UserCar> carList) {
         this.carList = carList;
     }
 
-    public List<WashUserAddress> getUserAddresses() {
+    public List<UserAddress> getUserAddresses() {
         return userAddresses;
     }
 
-    public void setUserAddresses(List<WashUserAddress> userAddresses) {
+    public void setUserAddresses(List<UserAddress> userAddresses) {
         this.userAddresses = userAddresses;
     }
 }

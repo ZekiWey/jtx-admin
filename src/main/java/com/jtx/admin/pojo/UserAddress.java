@@ -2,7 +2,7 @@ package com.jtx.admin.pojo;
 
 import java.util.Date;
 
-public class WashUserAddress {
+public class UserAddress {
     private String id;
 
     private String userId;
@@ -21,7 +21,7 @@ public class WashUserAddress {
 
     private Date updateTime;
 
-    public WashUserAddress(String id, String userId, String contact, String phone, String address, String note, String addressDesc, Date createTime, Date updateTime) {
+    public UserAddress(String id, String userId, String contact, String phone, String address, String note, String addressDesc, Date createTime, Date updateTime) {
         this.id = id;
         this.userId = userId;
         this.contact = contact;
@@ -33,7 +33,7 @@ public class WashUserAddress {
         this.updateTime = updateTime;
     }
 
-    public WashUserAddress() {
+    public UserAddress() {
         super();
     }
 

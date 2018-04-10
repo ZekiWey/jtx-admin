@@ -4,11 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.jtx.admin.common.ServerResponse;
-import com.jtx.admin.dao.WashUserAddressMapper;
-import com.jtx.admin.dao.WashUserCarMapper;
-import com.jtx.admin.dao.WashUserMapper;
-import com.jtx.admin.pojo.WashUser;
-import com.jtx.admin.pojo.WashUserAddress;
+import com.jtx.admin.dao.UserAddressMapper;
+import com.jtx.admin.dao.UserCarMapper;
+import com.jtx.admin.dao.UserMapper;
+import com.jtx.admin.pojo.User;
 import com.jtx.admin.service.IUserService;
 import com.jtx.admin.vo.UserDetails;
 import com.jtx.admin.vo.UserVO;
@@ -19,18 +18,16 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    private WashUserMapper washUserMapper;
+    private UserMapper washUserMapper;
     @Autowired
-    private WashUserCarMapper washUserCarMapper;
+    private UserCarMapper washUserCarMapper;
     @Autowired
-    private WashUserAddressMapper washUserAddressMapper;
+    private UserAddressMapper washUserAddressMapper;
 
     @Override
     public ServerResponse getUserList(
@@ -83,7 +80,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse getUserDetails(String userId){
-        WashUser washUser = washUserMapper.selectByUserId(userId);
+        User washUser = washUserMapper.selectByUserId(userId);
         if(null == washUser){
             return ServerResponse.createByErrorMessage("未找到该用户");
         }

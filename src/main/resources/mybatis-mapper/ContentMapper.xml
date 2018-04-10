@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jtx.admin.dao.WashContentMapper" >
-  <resultMap id="BaseResultMap" type="com.jtx.admin.pojo.WashContent" >
+<mapper namespace="com.jtx.admin.dao.ContentMapper" >
+  <resultMap id="BaseResultMap" type="com.jtx.admin.pojo.Content" >
     <constructor >
       <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
       <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -25,7 +25,7 @@
     delete from wash_content
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jtx.admin.pojo.WashContent" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.jtx.admin.pojo.Content" keyProperty="id" useGeneratedKeys="true">
     insert into wash_content (id, title, category, 
       url, image, create_time, 
       update_time)
@@ -33,7 +33,7 @@
       #{url,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, now(),
       now())
   </insert>
-  <insert id="insertSelective" parameterType="com.jtx.admin.pojo.WashContent" >
+  <insert id="insertSelective" parameterType="com.jtx.admin.pojo.Content" >
     insert into wash_content
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -82,7 +82,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jtx.admin.pojo.WashContent" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtx.admin.pojo.Content" >
     update wash_content
     <set >
       <if test="title != null" >
@@ -106,7 +106,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jtx.admin.pojo.WashContent" >
+  <update id="updateByPrimaryKey" parameterType="com.jtx.admin.pojo.Content" >
     update wash_content
     set title = #{title,jdbcType=VARCHAR},
       category = #{category,jdbcType=INTEGER},

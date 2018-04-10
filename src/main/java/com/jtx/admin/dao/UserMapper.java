@@ -1,25 +1,25 @@
 package com.jtx.admin.dao;
 
-import com.jtx.admin.pojo.WashUser;
-import com.jtx.admin.pojo.WashUserKey;
+import com.jtx.admin.pojo.User;
+import com.jtx.admin.pojo.UserKey;
 import com.jtx.admin.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
 
-public interface WashUserMapper {
-    int deleteByPrimaryKey(WashUserKey key);
+public interface UserMapper {
+    int deleteByPrimaryKey(UserKey key);
 
-    int insert(WashUser record);
+    int insert(User record);
 
-    int insertSelective(WashUser record);
+    int insertSelective(User record);
 
-    WashUser selectByPrimaryKey(WashUserKey key);
+    User selectByPrimaryKey(UserKey key);
 
-    int updateByPrimaryKeySelective(WashUser record);
+    int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(WashUser record);
+    int updateByPrimaryKey(User record);
 
     List<UserVO> selectAllUsers(@Param("isVip") Integer isVip, @Param("gender")Integer gender,
                                 @Param("state")Integer state, @Param("integralBegin") String integralBegin,
@@ -29,5 +29,5 @@ public interface WashUserMapper {
 
     int updateStateByUserId(@Param("userId") String userId,@Param("state") Integer state);
 
-    WashUser selectByUserId(String userId);
+    User selectByUserId(String userId);
 }

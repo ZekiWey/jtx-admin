@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jtx.admin.dao.WashUserMapper" >
-  <resultMap id="BaseResultMap" type="com.jtx.admin.pojo.WashUser" >
+<mapper namespace="com.jtx.admin.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.jtx.admin.pojo.User" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <idArg column="phone" jdbcType="BIGINT" javaType="java.lang.Long" />
@@ -28,18 +28,18 @@
   <sql id="Base_Column_List" >
     id, phone, nick_name, gender, is_vip, state, create_time, update_time
   </sql>
-  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="com.jtx.admin.pojo.WashUserKey" >
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="com.jtx.admin.pojo.UserKey" >
     select 
     <include refid="Base_Column_List" />
     from wash_user
     where id = #{userId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.jtx.admin.pojo.WashUserKey" >
+  <delete id="deleteByPrimaryKey" parameterType="com.jtx.admin.pojo.UserKey" >
     delete from wash_user
     where id = #{id,jdbcType=VARCHAR}
       and phone = #{phone,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jtx.admin.pojo.WashUser" >
+  <insert id="insert" parameterType="com.jtx.admin.pojo.User" >
     insert into wash_user (id, phone, nick_name, 
       gender, is_vip, state, 
       create_time, update_time)
@@ -47,7 +47,7 @@
       #{gender,jdbcType=INTEGER}, #{isVip,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jtx.admin.pojo.WashUser" >
+  <insert id="insertSelective" parameterType="com.jtx.admin.pojo.User" >
     insert into wash_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -102,7 +102,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jtx.admin.pojo.WashUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.jtx.admin.pojo.User" >
     update wash_user
     <set >
       <if test="nickName != null" >
@@ -127,7 +127,7 @@
     where id = #{id,jdbcType=VARCHAR}
       and phone = #{phone,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jtx.admin.pojo.WashUser" >
+  <update id="updateByPrimaryKey" parameterType="com.jtx.admin.pojo.User" >
     update wash_user
     set nick_name = #{nickName,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
@@ -140,7 +140,7 @@
   </update>
 
   <select id="selectAllUsers" resultMap="VOResultMap">
-    select u.id,phone,nick_name,gender,state,is_vip,SUM(if( o.status > 4, o.price, 0)) as integral,u.create_time from wash_user u LEFT JOIN wash_order o on u.id=o.user_id
+    select u.id,phone,nick_name,gender,state,is_vip,SUM(if( o.status > 4, o.practical_price, 0)) as integral,u.create_time from wash_user u LEFT JOIN wash_order o on u.id=o.user_id
     <trim prefix="WHERE" prefixOverrides="and">
       <if test="isVip != null">
         is_vip=#{isVip}

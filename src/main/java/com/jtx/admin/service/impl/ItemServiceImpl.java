@@ -88,15 +88,18 @@ public class ItemServiceImpl implements IItemService {
         }
 
         Item washItem = new Item();
+        if(null == price && null == category && null == sortOrder && null == status && null == title && null==subTitle && null == titleDesc && null == url){
+            return ServerResponse.createBySuccessMessage("修改成功");
+        }
         washItem.setId(itemId);
-        washItem.setTitle(title);
-        washItem.setSubTitle(subTitle);
-        washItem.setTitleDesc(titleDesc);
+        washItem.setTitle(StringUtils.isBlank(title) ? null : title);
+        washItem.setSubTitle(StringUtils.isBlank(subTitle) ? null : subTitle);
+        washItem.setTitleDesc(StringUtils.isBlank(titleDesc) ? null : titleDesc);
         washItem.setCategory(category);
         washItem.setStatus(status);
         washItem.setSortOrder(sortOrder);
         washItem.setPrice(price);
-        washItem.setUrl(url);
+        washItem.setUrl(StringUtils.isBlank(url) ? null : url);
         int result = itemMapper.updateByPrimaryKeySelective(washItem);
         if(result < 0){
             return ServerResponse.createByErrorMessage("更新失败");

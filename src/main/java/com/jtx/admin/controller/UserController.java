@@ -54,5 +54,13 @@ public class UserController {
         return userService.getUserDetails(userId);
     }
 
+    @RequestMapping("/feedback")
+    @ResponseBody
+    public ServerResponse feedBackList(@RequestParam(value = "pageSize",defaultValue = "10") int pageSize,
+                                       @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+                                       @RequestParam(value = "userId",required = false)String userId){
+        return userService.feedbackList(pageSize, pageNum, userId);
+    }
+
 
 }

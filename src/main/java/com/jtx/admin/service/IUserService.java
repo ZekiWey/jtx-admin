@@ -40,4 +40,13 @@ public interface IUserService {
      */
     ServerResponse getUserDetails(String userId);
 
+    /**
+     * 获取用户的反馈信息
+     * @param pageSize 每页显示数量
+     * @param pageNum  页码
+     * @param userId  按照用户ID筛选反馈信息
+     * @return
+     */
+    ServerResponse feedbackList(int pageSize,int pageNum,String userId);
+
 }

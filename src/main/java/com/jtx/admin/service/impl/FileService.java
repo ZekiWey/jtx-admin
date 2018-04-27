@@ -58,7 +58,7 @@ public class FileService implements IFileService {
             itemMapper.updateImageByItemId(itemId,DefaultImageName);
             return ServerResponse.createByErrorMessage("封面上传失败，请重试");
         }
-        int reulst = itemMapper.updateImageByItemId(itemId,PropertiesUtil.getProperty("ftp.servxer.http.prefi") + targetFile.getName());
+        int reulst = itemMapper.updateImageByItemId(itemId,PropertiesUtil.getProperty("ftp.servxer.http.prefi") + path + "/" + targetFile.getName());
 
         if (reulst > 0) {
             return ServerResponse.createBySuccessMessage("封面上传成功");
@@ -96,7 +96,7 @@ public class FileService implements IFileService {
             contentMapper.updateImageById(contentId,DefaultImageName);
             return ServerResponse.createByErrorMessage("图片上传失败，请重试");
         }
-        int reulst = contentMapper.updateImageById(contentId,PropertiesUtil.getProperty("ftp.servxer.http.prefi") + targetFile.getName());
+        int reulst = contentMapper.updateImageById(contentId,PropertiesUtil.getProperty("ftp.servxer.http.prefi")+ path + "/" + targetFile.getName());
 
         if (reulst > 0) {
             return ServerResponse.createBySuccessMessage("图片上传成功");

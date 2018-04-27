@@ -41,11 +41,11 @@ public class ContentController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public ServerResponse contentUpdate(@RequestParam("title") String title,
-                                     @RequestParam("category") Integer category,
-                                     @RequestParam("url") String url,
-                                     @RequestParam("image") MultipartFile image,
-                                        @Param("contentId") Long contentId){
+    public ServerResponse contentUpdate(@RequestParam(value = "title",required = false) String title,
+                                     @RequestParam(value = "category",required = false) Integer category,
+                                     @RequestParam(value = "url",required = false) String url,
+                                     @RequestParam(value = "image",required = false) MultipartFile image,
+                                        @RequestParam("contentId") Long contentId){
 
         return contentService.contentUpdate(title, category, url, image, contentId);
     }

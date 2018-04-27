@@ -4,9 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.jtx.admin.common.ServerResponse;
+import com.jtx.admin.dao.FeedbackMapper;
 import com.jtx.admin.dao.UserAddressMapper;
 import com.jtx.admin.dao.UserCarMapper;
 import com.jtx.admin.dao.UserMapper;
+import com.jtx.admin.pojo.Feedback;
 import com.jtx.admin.pojo.User;
 import com.jtx.admin.service.IUserService;
 import com.jtx.admin.vo.UserDetails;
@@ -14,6 +16,7 @@ import com.jtx.admin.vo.UserVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -23,11 +26,13 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    private UserMapper washUserMapper;
+    private UserMapper UserMapper;
     @Autowired
-    private UserCarMapper washUserCarMapper;
+    private UserCarMapper UserCarMapper;
     @Autowired
-    private UserAddressMapper washUserAddressMapper;
+    private UserAddressMapper UserAddressMapper;
+    @Autowired
+    private FeedbackMapper feedbackMapper;
 
     @Override
     public ServerResponse getUserList(
@@ -57,7 +62,7 @@ public class UserServiceImpl implements IUserService {
             System.out.println(sortFieldMap.toString());
         }
         PageHelper.startPage(pageNum,pageSize);
-        List<UserVO> washUserList = washUserMapper.selectAllUsers(isVip, gender, state, integralBegin, integralEnd, cTimeBegin, cTimeEnd,sortFieldMap);
+        List<UserVO> washUserList = UserMapper.selectAllUsers(isVip, gender, state, integralBegin, integralEnd, cTimeBegin, cTimeEnd,sortFieldMap);
         PageInfo pageResult = new PageInfo(washUserList);
         pageResult.setList(washUserList);
         return ServerResponse.createBySuccess("总共"+ washUserList.size() +"条记录",pageResult);
@@ -71,7 +76,7 @@ public class UserServiceImpl implements IUserService {
         if(state < 0 || state > 1){
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        int result = washUserMapper.updateStateByUserId(userId, state);
+        int result = UserMapper.updateStateByUserId(userId, state);
         if(result > 0){
             return ServerResponse.createBySuccessMessage("状态设置成功");
         }
@@ -80,7 +85,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse getUserDetails(String userId){
-        User washUser = washUserMapper.selectByUserId(userId);
+        User washUser = UserMapper.selectByUserId(userId);
         if(null == washUser){
             return ServerResponse.createByErrorMessage("未找到该用户");
         }
@@ -93,9 +98,21 @@ public class UserServiceImpl implements IUserService {
         userDetails.setState(washUser.getState() == 0 ? "禁封" : "正常");
         userDetails.setCreateTime(washUser.getCreateTime().toString());
         userDetails.setUpdateTime(washUser.getUpdateTime().toString());
-        userDetails.setCarList(washUserCarMapper.selectCarListByUserId(userId));
-        userDetails.setUserAddresses(washUserAddressMapper.selectListAdressByUserId(userId));
+        userDetails.setCarList(UserCarMapper.selectCarListByUserId(userId));
+        userDetails.setUserAddresses(UserAddressMapper.selectListAdressByUserId(userId));
         return ServerResponse.createBySuccess(userDetails);
+    }
+
+    @Override
+    public ServerResponse feedbackList(int pageSize,int pageNum,String userId){
+        PageHelper.startPage(pageNum, pageSize);
+        List<Feedback> feedbackList = feedbackMapper.selectFeedback(userId);
+        if(CollectionUtils.isEmpty(feedbackList)){
+            return ServerResponse.createByErrorMessage("空空如也");
+        }
+        PageInfo pageInfo = new PageInfo(feedbackList);
+        pageInfo.setList(feedbackList);
+        return ServerResponse.createBySuccess("所有的反馈信息",pageInfo);
     }
 
 }

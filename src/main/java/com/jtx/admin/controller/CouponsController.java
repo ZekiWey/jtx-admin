@@ -3,6 +3,7 @@ package com.jtx.admin.controller;
 import com.jtx.admin.common.ServerResponse;
 import com.jtx.admin.pojo.Coupons;
 import com.jtx.admin.service.ICouponsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,11 +61,11 @@ public class CouponsController {
                                         @RequestParam(value = "scope",required = false) String scope){
         Coupons coupons = new Coupons();
         coupons.setId(couponsId);
-        coupons.setName(name);
-        coupons.setCouponsDesc(couponsDesc);
+        coupons.setName(StringUtils.isBlank(name) ? null : name);
+        coupons.setCouponsDesc(StringUtils.isBlank(couponsDesc) ? null : couponsDesc);
         coupons.setPreferentialWay(preferentialWay);
-        coupons.setPreferentialInfo(preferentialInfo);
-        coupons.setScope(scope);
+        coupons.setPreferentialInfo(StringUtils.isBlank(preferentialInfo) ? null : preferentialInfo);
+        coupons.setScope(StringUtils.isBlank(scope) ? null : scope);
         return couponsService.couponsUpdate(coupons);
     }
 }

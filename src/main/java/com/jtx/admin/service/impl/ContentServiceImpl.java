@@ -84,8 +84,8 @@ public class ContentServiceImpl implements IContentService {
             }
         }
         Content washContent = new Content();
-        washContent.setUrl(title);
-        washContent.setUrl(url);
+        washContent.setTitle(StringUtils.isBlank(title) ? null : title);
+        washContent.setUrl(StringUtils.isBlank(url) ? null : url);
         washContent.setCategory(category);
         washContent.setId(contentId);
         int ruselt = contentMapper.updateByPrimaryKeySelective(washContent);

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.jtx.admin.common.ServerResponse;
 import com.jtx.admin.dao.ContentMapper;
 import com.jtx.admin.dao.ItemMapper;
+import com.jtx.admin.dao.TechniMapper;
 import com.jtx.admin.service.IFileService;
 import com.jtx.admin.utils.FTPUtil;
 import com.jtx.admin.utils.PropertiesUtil;
@@ -26,6 +27,8 @@ public class FileService implements IFileService {
     private ItemMapper itemMapper;
     @Autowired
     private ContentMapper contentMapper;
+    @Autowired
+    private TechniMapper techniMapper;
 
     @Override
     public ServerResponse updateItemImage(MultipartFile file, String path,Long itemId){
@@ -48,7 +51,7 @@ public class FileService implements IFileService {
                 return ServerResponse.createByErrorMessage("封面上传失败，请重试");
             }
             if (!oldImage.equals(DefaultImageName)) {
-                if (!FTPUtil.delefile(oldImage)) {
+                if (!FTPUtil.delefile(oldImage.replace(PropertiesUtil.getProperty("ftp.servxer.http.prefi") + path + "/",""))) {
                     return ServerResponse.createByErrorMessage("封面上传失败，请重试");
                 }
             }
@@ -86,7 +89,7 @@ public class FileService implements IFileService {
                 return ServerResponse.createByErrorMessage("图片上传失败，请重试");
             }
             if (!oldImage.equals(DefaultImageName)) {
-                if (!FTPUtil.delefile(oldImage)) {
+                if (!FTPUtil.delefile(oldImage.replace(PropertiesUtil.getProperty("ftp.servxer.http.prefi") + path + "/",""))) {
                     return ServerResponse.createByErrorMessage("图片上传失败，请重试");
                 }
             }
@@ -105,6 +108,45 @@ public class FileService implements IFileService {
     }
 
     @Override
+    public ServerResponse updateTechniHeadImage(MultipartFile file, String path,Integer techniId){
+        String DefaultImageName = PropertiesUtil.getProperty("ftp.servxer.http.prefi") + "techniHeadImage.jpg";
+        String fileName = file.getOriginalFilename();
+        String fileExtName = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String name = "techniHeadImage" +  UUID.randomUUID().toString();
+        String upLoadFileName = name + "." + fileExtName;
+        File fileDir = new File(path);
+        if (!fileDir.exists()) {
+            fileDir.setWritable(true);
+            fileDir.mkdirs();
+        }
+        File targetFile = new File(path, upLoadFileName);
+        try {
+            file.transferTo(targetFile);
+
+            String oldImage = techniMapper.selectHeadImageByTechniId(techniId);
+            if (null == oldImage) {
+                return ServerResponse.createByErrorMessage("头像上传失败，请重试");
+            }
+            if (!oldImage.equals(DefaultImageName)) {
+                if (!FTPUtil.delefile(oldImage.replace(PropertiesUtil.getProperty("ftp.servxer.http.prefi") + path + "/",""))) {
+                    return ServerResponse.createByErrorMessage("头像上传失败，请重试");
+                }
+            }
+            FTPUtil.upLoadFile(Lists.newArrayList(targetFile));
+            targetFile.delete();
+        } catch (IOException e) {
+            techniMapper.updateHeadImageByTechniId(techniId,DefaultImageName);
+            return ServerResponse.createByErrorMessage("头像上传失败，请重试");
+        }
+        int reulst = techniMapper.updateHeadImageByTechniId(techniId,PropertiesUtil.getProperty("ftp.servxer.http.prefi")+ path + "/" + targetFile.getName());
+
+        if (reulst > 0) {
+            return ServerResponse.createBySuccessMessage("头像上传成功");
+        }
+        return ServerResponse.createByErrorMessage("头像上传失败，请重试");
+    }
+
+    @Override
     public boolean delImage(String imageName){
         try {
             return FTPUtil.delefile(imageName);
@@ -113,4 +155,5 @@ public class FileService implements IFileService {
             return false;
         }
     }
+
 }

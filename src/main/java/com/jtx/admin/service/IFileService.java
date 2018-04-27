@@ -30,5 +30,21 @@ public interface IFileService {
      */
     ServerResponse updateContentImage(MultipartFile file, String path,Long contentId);
 
+    /**
+     * 删除照片
+     * @param imageName
+     * @return
+     */
     boolean delImage(String imageName);
+
+
+
+    /**
+     * 上传员工的头像
+     * @param file
+     * @param path
+     * @param techniId
+     * @return
+     */
+    ServerResponse updateTechniHeadImage(MultipartFile file, String path,Integer techniId);
 }

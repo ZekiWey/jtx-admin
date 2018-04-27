@@ -30,7 +30,7 @@
     delete from wash_techni
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jtx.admin.pojo.Techni" >
+  <insert id="insert" parameterType="com.jtx.admin.pojo.Techni" useGeneratedKeys="true" keyProperty="id">
     insert into wash_techni (id, name, head_image, 
       gender, phone, camera_id, 
       order_total, evaluation, status, 
@@ -162,5 +162,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectHeadImageByTechniId" parameterType="integer" resultType="string">
+    select head_image from wash_techni where id = #{techniId,jdbcType=INTEGER}
+  </select>
+
+  <update id="updateHeadImageByTechniId" parameterType="map">
+    update wash_techni set head_image=#{headImage} where id = #{techniId,jdbcType=INTEGER}
   </update>
 </mapper>

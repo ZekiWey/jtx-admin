@@ -22,4 +22,24 @@ public interface TechniService {
                              Integer gender,
                              String phone,
                              String cameraId);
+
+    /**
+     * 修改员工
+     * @param name
+     * @param headImage
+     * @param gender
+     * @param phone
+     * @param cameraId
+     * @param techniId
+     * @return
+     */
+    ServerResponse uploadTechni(String name,
+                             MultipartFile headImage,
+                             Integer gender,
+                             String phone,
+                             String cameraId,
+                                Integer techniId,
+                                Integer status);
+
+
 }

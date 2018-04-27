@@ -63,12 +63,7 @@ public class ItemServiceImpl implements IItemService {
         if(serverResponse.isSuccess()) {
             return ServerResponse.createBySuccessMessage("新增成功");
         }
-        try {
-            throw new RuntimeException("图片上传失败");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return ServerResponse.createByErrorMessage("新增失败");
+        throw new RuntimeException(serverResponse.getMsg());
     }
     @Override
     @Transactional(rollbackFor = IOException.class)

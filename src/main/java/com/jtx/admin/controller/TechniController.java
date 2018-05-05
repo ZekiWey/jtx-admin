@@ -22,6 +22,7 @@ public class TechniController {
     @RequestMapping("/add")
     @ResponseBody
     public ServerResponse addTechni(String name,
+
                                     MultipartFile headImage,
                                     Integer gender,
                                     String phone,

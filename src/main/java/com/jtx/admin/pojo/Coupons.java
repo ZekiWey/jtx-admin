@@ -97,4 +97,18 @@ public class Coupons {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "Coupons{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", couponsDesc='" + couponsDesc + '\'' +
+                ", preferentialWay=" + preferentialWay +
+                ", preferentialInfo='" + preferentialInfo + '\'' +
+                ", scope='" + scope + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

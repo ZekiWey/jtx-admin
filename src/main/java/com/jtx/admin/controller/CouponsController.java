@@ -66,6 +66,7 @@ public class CouponsController {
         coupons.setPreferentialWay(preferentialWay);
         coupons.setPreferentialInfo(StringUtils.isBlank(preferentialInfo) ? null : preferentialInfo);
         coupons.setScope(StringUtils.isBlank(scope) ? null : scope);
+        System.out.println(coupons.toString());
         return couponsService.couponsUpdate(coupons);
     }
 }

@@ -46,7 +46,7 @@ public class ContentController {
                                      @RequestParam(value = "url",required = false) String url,
                                      @RequestParam(value = "image",required = false) MultipartFile image,
                                         @RequestParam("contentId") Long contentId){
-
+        System.out.println(image);
         return contentService.contentUpdate(title, category, url, image, contentId);
     }
     @RequestMapping("/del")

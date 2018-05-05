@@ -72,32 +72,34 @@ public class ItemServiceImpl implements IItemService {
         if(null == itemId){
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        if(null == price && null == category && null == sortOrder && null == status && null == title && null==subTitle && null == titleDesc && null == url) {
+        if(null == price && null == category && null == sortOrder && null == status && StringUtils.isBlank(title) && StringUtils.isBlank(subTitle) && StringUtils.isBlank(titleDesc) && StringUtils.isBlank(url)) {
             if(null == file){
                 return ServerResponse.createByErrorMessage("参数错误");
             }
         }
-        ServerResponse serverResponse = fileService.updateItemImage(file,"img",itemId);
-        if(!serverResponse.isSuccess()){
-            return ServerResponse.createByErrorMessage("修改失败");
+        if(file != null) {
+            ServerResponse serverResponse = fileService.updateItemImage(file, "img", itemId);
+            if (!serverResponse.isSuccess()) {
+                return ServerResponse.createByErrorMessage("修改失败");
+            }
         }
 
-        Item washItem = new Item();
-        if(null == price && null == category && null == sortOrder && null == status && null == title && null==subTitle && null == titleDesc && null == url){
-            return ServerResponse.createBySuccessMessage("修改成功");
-        }
-        washItem.setId(itemId);
-        washItem.setTitle(StringUtils.isBlank(title) ? null : title);
-        washItem.setSubTitle(StringUtils.isBlank(subTitle) ? null : subTitle);
-        washItem.setTitleDesc(StringUtils.isBlank(titleDesc) ? null : titleDesc);
-        washItem.setCategory(category);
-        washItem.setStatus(status);
-        washItem.setSortOrder(sortOrder);
-        washItem.setPrice(price);
-        washItem.setUrl(StringUtils.isBlank(url) ? null : url);
-        int result = itemMapper.updateByPrimaryKeySelective(washItem);
-        if(result < 0){
-            return ServerResponse.createByErrorMessage("更新失败");
+
+        if(!(null == price && null == category && null == sortOrder && null == status && StringUtils.isBlank(title) && StringUtils.isBlank(subTitle) && StringUtils.isBlank(titleDesc) && StringUtils.isBlank(url))) {
+            Item washItem = new Item();
+            washItem.setId(itemId);
+            washItem.setTitle(StringUtils.isBlank(title) ? null : title);
+            washItem.setSubTitle(StringUtils.isBlank(subTitle) ? null : subTitle);
+            washItem.setTitleDesc(StringUtils.isBlank(titleDesc) ? null : titleDesc);
+            washItem.setCategory(category);
+            washItem.setStatus(status);
+            washItem.setSortOrder(sortOrder);
+            washItem.setPrice(price);
+            washItem.setUrl(StringUtils.isBlank(url) ? null : url);
+            int result = itemMapper.updateByPrimaryKeySelective(washItem);
+            if (result < 0) {
+                return ServerResponse.createByErrorMessage("更新失败");
+            }
         }
         return ServerResponse.createBySuccessMessage("更新成功");
     }

@@ -34,6 +34,7 @@ public class ContentServiceImpl implements IContentService {
         }
         PageInfo pageResult = new PageInfo(washContentList);
         pageResult.setList(washContentList);
+        System.out.println("PageSize:" + pageResult.getPageSize() + "Size:" + pageResult.getSize() + "PageNum" + pageResult.getPageNum() + "Num:" + pageNum);
         return ServerResponse.createBySuccess("所有信息",pageResult);
     }
 
@@ -67,24 +68,26 @@ public class ContentServiceImpl implements IContentService {
 
     @Override
     public ServerResponse contentUpdate(String title,Integer category,String url,MultipartFile image,Long contentId){
-        if(StringUtils.isBlank(title) || StringUtils.isBlank(url) || null == category || null == image || null == contentId){
+        if(StringUtils.isBlank(title) && StringUtils.isBlank(url) && null == category && null == image && contentId == null){
             return ServerResponse.createByErrorMessage("参数错误");
         }
-        if(null != image && category != 3){
+        if(null != image){
             ServerResponse serverResponse = fileService.updateContentImage(image,"img",contentId);
             if(!serverResponse.isSuccess()){
                 return ServerResponse.createByErrorMessage("更新失败");
             }
         }
-        Content washContent = new Content();
-        washContent.setTitle(StringUtils.isBlank(title) ? null : title);
-        washContent.setUrl(StringUtils.isBlank(url) ? null : url);
-        washContent.setCategory(category);
-        washContent.setId(contentId);
-        int ruselt = contentMapper.updateByPrimaryKeySelective(washContent);
+        if(!(StringUtils.isBlank(title) && StringUtils.isBlank(url) && null == category)){
+            Content washContent = new Content();
+            washContent.setTitle(StringUtils.isBlank(title) ? null : title);
+            washContent.setUrl(StringUtils.isBlank(url) ? null : url);
+            washContent.setCategory(category);
+            washContent.setId(contentId);
+            int ruselt = contentMapper.updateByPrimaryKeySelective(washContent);
 
-        if(ruselt < 0){
-            return ServerResponse.createByErrorMessage("更新失败");
+            if(ruselt < 0){
+                return ServerResponse.createByErrorMessage("更新失败");
+            }
         }
         return ServerResponse.createBySuccessMessage("更新成功");
     }
@@ -96,14 +99,14 @@ public class ContentServiceImpl implements IContentService {
 
         if(iamgeName != DefaultImageName){
             if(!fileService.delImage(iamgeName.substring(20))){
-                return ServerResponse.createBySuccessMessage("删除失败");
+                return ServerResponse.createByErrorMessage("删除失败");
             }
         }
         int result = contentMapper.deleteByPrimaryKey(contentId);
         if(result <= 0){
-            return ServerResponse.createBySuccessMessage("删除失败");
+            return ServerResponse.createByErrorMessage("删除失败");
         }
-        return ServerResponse.createBySuccess("删除成功");
+        return ServerResponse.createBySuccessMessage("删除成功");
 
     }
 
